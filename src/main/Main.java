@@ -1,11 +1,14 @@
-package main;
-import dao.PatientDAO;
-import models.Patient;
+import service.ReportService;
+
 public class Main {
     public static void main(String[] args) {
-        Patient patient = new Patient("Gauri Shukla", "2002-11-15", "Female", "gauri@example.com");
+        ReportService reports = new ReportService();
 
-        PatientDAO dao = new PatientDAO();
-        dao.addPatient(patient);
+        reports.getUpcomingAppointmentsPerDepartment();
+        reports.getOverdueBillsPatients();
+        reports.getMonthlyProcedureCountByType();
+        reports.getPendingInsuranceClaims();
+        reports.getDoctorUtilizationPerShift();
+        reports.getAverageStayByDiagnosis();
     }
 }

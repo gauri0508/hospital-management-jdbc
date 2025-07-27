@@ -1,28 +1,21 @@
 package dao;
 
-import models.Patient;
 import db.DBConnection;
+import models.Patient;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class PatientDAO {
-
     public void addPatient(Patient patient) {
-        String sql = "INSERT INTO Patient (name, dob, gender, contact_info) VALUES (?, ?, ?, ?)";
-
+        String sql = "INSERT INTO Patient (name, dob, gender, contact_info, primary_insurance_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, patient.getName());
-            stmt.setString(2, patient.getDob());
+            stmt.setDate(2, Date.valueOf(patient.getDob()));
             stmt.setString(3, patient.getGender());
             stmt.setString(4, patient.getContactInfo());
-
-            int rows = stmt.executeUpdate();
-            System.out.println(rows + " patient added.");
-
+            stmt.setLong(5, patient.getPrimaryInsuranceId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
